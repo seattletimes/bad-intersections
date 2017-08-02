@@ -1,0 +1,220 @@
+@import "seattletimes";
+
+@no-visible-color: #800026;
+@visible-color: lighten(#fd8d3c, 10%);
+
+
+@highest: @no-visible-color;
+@high: mix(@no-visible-color, @visible-color, 60%);
+@medium: mix(@no-visible-color, @visible-color, 30%);
+@low: mix(@no-visible-color, @visible-color, 5%);
+
+@ped-no-visible-color: #03685C;
+@ped-visible-color: #c7e9b4;
+
+
+@ped-highest: @ped-no-visible-color;
+@ped-high: mix(@ped-no-visible-color, @ped-visible-color, 60%);
+@ped-medium: mix(@ped-no-visible-color, @ped-visible-color, 30%);
+@ped-low: mix(@ped-no-visible-color, @ped-visible-color, 5%);
+
+.interactive {
+  max-width: 630px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.chatter {
+  text-align: center;
+}
+.container {
+  .display-flex();
+}
+
+.map-container {
+  max-width: 360px;
+  .flex(1);
+  // padding-right: 25px;
+
+}
+
+.aspect-container {
+  position: relative;
+  margin: 16px 0;
+
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: 150%;
+
+    @media @mobile {
+      // padding-bottom: 75%;
+    }
+  }
+
+  leaflet-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.intersection-marker {
+  border-radius: 100%;
+  border: 1px solid white;
+
+  &.cluster {
+    text-align: center;
+    .display-flex();
+    .align-items(center);
+    .justify-content(center);
+    // font-weight: bold;
+  }
+  // set colors for bike
+  &.low {
+    background: @low;
+  }
+  &.medium {
+    background: @medium;
+  }
+  &.high {
+    background: @high;
+  }
+  &.highest {
+    background: @highest;
+  }
+  // set colors for pedestrians
+  &.ped-low {
+    background: @ped-low;
+  }
+  &.ped-medium {
+    background: @ped-medium;
+  }
+  &.ped-high {
+    background: @ped-high;
+  }
+  &.ped-highest {
+    background: @ped-highest;
+  }
+}
+
+.navigation {
+  max-width: 250px;
+  padding-left: 30px;
+  padding-top: 20px;
+
+  .title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    padding-bottom: 6px;
+    color: #8B261C;
+  }
+
+  .buttonRow {
+    .display-flex();
+    .align-items(center);
+
+    input[type="radio"] {
+        display: none;
+
+        & + label {
+          background-color: @df-light-gray;
+          // border: none;
+          padding: 5px 16px;
+          color: white;
+          margin-bottom: 7px;
+          text-decoration: none;
+          display: inline-block;
+          text-align: center;
+          cursor: pointer;
+          font-size: 16px;
+          height: 30px;
+          margin-right: 5px;
+          .flex(1 1 0%);
+
+
+          &[for="bicycles"] {
+            border-radius: 4px;
+          }
+
+          &[for="pedestrians"] {
+            border-radius: 4px;
+          }
+        }
+
+        &:checked + label {
+          background: @df-middle-gray;
+        }
+      }
+    }
+
+  .bicycles, .pedestrians {
+
+    .key {
+      margin-bottom: 10px;
+
+      .label {
+        font-size: 13px;
+      }
+      .item {
+        display: block;
+        margin-bottom: 0px;
+        line-height: 10px;
+        font-size: 13px;
+        // font-weight: bold;
+      }
+      .text {
+        display: inline-block;
+        font-weight: bold;
+      }
+      .swatch {
+        display: inline-block;
+        margin-right: 5px;
+        height: 20px;
+        width: 100px;
+        // border-radius: 100%;
+        border: 0px solid gray;
+        font-size: 13px;
+      }
+      .bikeInjuries {
+        font-size: 12px;
+      }
+      .pedInjuries {
+        font-size: 12px;
+      }
+      .intersection:hover {
+        color: @df-blue;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.tab {
+  .key {
+    display: none;
+  }
+
+  &.show-key .key {
+    display: block;
+  }
+}
+
+.source, .note {
+  padding-top: 10px;
+  font-size: 14px;
+}
+
+.credit {
+  font-size: 13px;
+  text-align: right;
+  margin-top: 8px;
+}

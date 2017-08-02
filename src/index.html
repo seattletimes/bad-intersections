@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <%= t.include("partials/_head.html", grunt.data.json) %>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+
+    <responsive-child>
+      <main class="interactive">
+      <h1>Seatt's most dangerous intersections for Bicycles and Pedestrians</h1>
+      <p class="chatter">
+        Insert chatter here
+        <div class="container">
+          <div class="map-container">
+            <div class="aspect-container">
+              <leaflet-map>
+                <tile-layer layer="cartoPositron">
+                </tile-layer>
+              </leaflet-map>
+            </div>
+          </div>
+          <div class="navigation">
+            <div class="title"> Select a set of data to view: </div>
+          <div class=buttonRow>
+            <input type="radio" name="layer-selection" id="bicycles" checked="checked">
+             <label for="bicycles">Bicycles </label>
+           <input type="radio" name="layer-selection" id="pedestrians">
+            <label for="pedestrians">Pedestrians</label>
+          </div>
+            <div class="tab bicycles show-key">
+              <div class="key">
+                <div class="label"> Average number of injuries per collision: </div>
+                <div class="item">
+                  <div class="swatch" style="background: #f7a26b"></div> <div class="text"> Less than .75</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #d87759"></div> <div class="text"> .75 - 1</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #b2382f"></div> <div class="text"> 1 - 1.5</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #800026"></div> <div class="text"> More than 1.5</div>
+                </div>
+              <% csv.injuries.forEach(function(row) { %>
+                <% if (row.bike == 0) return; %>
+              <div class="bikeInjuries">
+                <div class="intersection" data-lat="<%= row.lat %>" data-lng="<%= row.long %>"> There were <%= (row.injury_sum) %> injuries at <%= row.location %> </div>
+              </div>
+                <% }); %>
+              </div>
+            </div>
+            <div class="tab pedestrians">
+              <div class="key">
+                <div class="label"> Average number of injuries per collision: </div>
+                <div class="item">
+                  <div class="swatch" style="background: #c7e9b4"></div> <div class="text"> Less than .5</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #8cc29a"></div> <div class="text"> .5 - 1</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #519c7f"></div> <div class="text"> 1 - 1.2</div>
+                </div>
+                <div class="item">
+                  <div class="swatch" style="background: #03685C"></div> <div class="text"> More than 1.2</div>
+                </div>
+              <% csv.injuries.forEach(function(row) { %>
+                <% if (row.bike == 1) return; %>
+              <div class="pedInjuries">
+                <div class="intersection" data-lat="<%= row.lat %>" data-lng="<%= row.long %>" > There were <%= (row.injury_sum) %> injuries at <%= row.location %> </div>
+              </div>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source">
+          Source: Seattle Department of Transportation
+        </div>
+        <div class="credit">
+          ELLIS SIMANI / THE SEATTLE TIMES
+        </div>
+      </main>
+    </responsive-child>
+
+    <script>
+window.collisionsData = <%= JSON.stringify(csv.collisions) %>;
+window.injuriesData = <%= JSON.stringify(csv.injuries) %>;
+    </script>
+
+    <script src="app.js" async></script>
+    <% if (json.project.production) { %>
+    <%= !json.project.embedded ? t.include("partials/_analytics.html") : "" %>
+    <%= t.include("partials/_workHere.html") %>
+    <% } %>
+  </body>
+</html>
