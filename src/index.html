@@ -29,39 +29,15 @@
           </div>
             <div class="tab bicycles show-key">
               <div class="key">
-                <div class="label"> Average number of injuries per collision: </div>
+                <div class="filler">Click on a marker to explore some of Seattle's most dangerous intersections for either bicycles or pedestrians. </div>
                 <div class="item">
-                  <div class="swatch"></div> <div class="text"></div>
+                  <!-- <div class="swatch"></div> <div class="text"></div> -->
                 </div>
-              <% csv.injuries.forEach(function(row) { %>
-                <% if (row.bike == 0) return; %>
-              <div class="bikeInjuries">
-                <div class="intersection" data-lat="<%= row.lat %>" data-lng="<%= row.long %>"> There were <%= (row.injury_sum) %> injuries at <%= row.location %> </div>
-              </div>
-                <% }); %>
               </div>
             </div>
             <div class="tab pedestrians">
-              <div class="key">
-                <div class="label"> Average number of injuries per collision: </div>
-                <div class="item">
-                  <div class="swatch" style="background: #c7e9b4"></div> <div class="text"> Less than .5</div>
-                </div>
-                <div class="item">
-                  <div class="swatch" style="background: #8cc29a"></div> <div class="text"> .5 - 1</div>
-                </div>
-                <div class="item">
-                  <div class="swatch" style="background: #519c7f"></div> <div class="text"> 1 - 1.2</div>
-                </div>
-                <div class="item">
-                  <div class="swatch" style="background: #03685C"></div> <div class="text"> More than 1.2</div>
-                </div>
-              <% csv.injuries.forEach(function(row) { %>
-                <% if (row.bike == 1) return; %>
-              <div class="pedInjuries">
-                <div class="intersection" data-lat="<%= row.lat %>" data-lng="<%= row.long %>" > There were <%= (row.injury_sum) %> injuries at <%= row.location %> </div>
-              </div>
-                <% }); %>
+              <div class="key ped">
+                <div class="filler">Click on a marker to explore some of Seattle's most dangerous intersections for either bicycles or pedestrians. </div>
               </div>
             </div>
           </div>

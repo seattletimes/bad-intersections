@@ -14,6 +14,7 @@ var popupTemplate = dot.compile(require("./_popupTemplate.html"));
 var mapElement = $.one("leaflet-map");
 var map = window.map = mapElement.map;
 var leaflet = mapElement.leaflet;
+map.scrollWheelZoom.disable();
 
 var heatPointsBike = [];
 var heatPointsPed = [];
@@ -25,14 +26,18 @@ window.injuriesData.forEach(function(r) {
   if (!r.lat) return
   var injuryMarker = L.marker([r.lat, r.long], {
     icon: L.divIcon({
-      // className: "injury-marker"
     })
   });
     injuryMarker.data = r;
+    var html = popupTemplate({ name: r.location, r });
+    var key = $.one(".key");
+    var pedkey = $.one(".ped");
+    injuryMarker.on("click", e => key.innerHTML = html);
+    injuryMarker.on("click", e => pedkey.innerHTML = html);
     injuryMarker.on("click", e => console.log(e.target.data));
     if (r.bike == 1) injuryMarker.addTo(bikeLayer);
     if (r.bike == 0) injuryMarker.addTo(pedLayer);
-    injuryMarker.bindPopup(popupTemplate({ name: r.location, r }, { className: "intersection-detail" }));
+    // injuryMarker.bindPopup(popupTemplate({ name: r.location, r }, { className: "intersection-detail" }));
 });
 bikeLayer.addTo(map);
 
@@ -97,7 +102,6 @@ var toggleLayer = function() {
 };
 
 toggleLayer();
-
 
 $.one(".buttonRow").addEventListener("change", toggleLayer);
 $(".intersection").forEach(el => el.addEventListener("click", geocode));
