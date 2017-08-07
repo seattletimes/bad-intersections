@@ -8,58 +8,33 @@ require("leaflet.markercluster");
 require("leaflet.heat");
 
 var $ = require("./lib/qsa");
+var dot = require("./lib/dot");
+var popupTemplate = dot.compile(require("./_popupTemplate.html"));
+
 var mapElement = $.one("leaflet-map");
 var map = window.map = mapElement.map;
 var leaflet = mapElement.leaflet;
 
-var pedestrianLayer = L.markerClusterGroup({
-    maxClusterRadius: 0,
-    showCoverageOnHover: false,
-    spiderfyOnMaxZoom: false,
-    zoomToBoundsOnClick: true,
-    iconCreateFunction(cluster) {
-      var count = cluster.getChildCount();
-      var size = count < 10 ? "20" : count < 25 ? "25" : count < 50 ? "30" : count < 100 ? "35" : count < 400 ? "40" : "60";
-      var injuryCount = cluster.getAllChildMarkers().reduce(function(sum, marker) {
-        return sum + ((marker.data.injuries)/count);
-      }, 0);
-      var injuryClass = injuryCount < .75 ? "ped-low" :
-      injuryCount < 1? "ped-medium" :
-      injuryCount < 1.2 ? "ped-high" :
-      "ped-highest";
-      return leaflet.divIcon({
-        html: count,
-        className: `intersection-marker cluster ${injuryClass}`,
-        iconSize: [size, size]
-      });
-    }
-});
-
-var bikeLayer = L.markerClusterGroup({
-    maxClusterRadius: 0,
-    showCoverageOnHover: false,
-    spiderfyOnMaxZoom: false,
-    zoomToBoundsOnClick: true,
-    iconCreateFunction(cluster) {
-      var count = cluster.getChildCount();
-      var size = count < 10 ? "20" : count < 25 ? "25" : count < 50 ? "40" : count < 100 ? "35" : count < 400 ? "40" : "60";
-      var injuryCount = cluster.getAllChildMarkers().reduce(function(sum, marker) {
-        return sum + ((marker.data.injuries)/count);
-      }, 0);
-      var injuryClass = injuryCount < .75 ? "low" :
-      injuryCount < 1 ? "medium" :
-      injuryCount < 1.5 ? "high" :
-      "highest";
-      return leaflet.divIcon({
-        html: count,
-        className: `intersection-marker cluster ${injuryClass}`,
-        iconSize: [size, size]
-      });
-    }
-});
-
 var heatPointsBike = [];
 var heatPointsPed = [];
+
+var bikeLayer = L.featureGroup();
+var pedLayer = L.featureGroup();
+
+window.injuriesData.forEach(function(r) {
+  if (!r.lat) return
+  var injuryMarker = L.marker([r.lat, r.long], {
+    icon: L.divIcon({
+      // className: "injury-marker"
+    })
+  });
+    injuryMarker.data = r;
+    injuryMarker.on("click", e => console.log(e.target.data));
+    if (r.bike == 1) injuryMarker.addTo(bikeLayer);
+    if (r.bike == 0) injuryMarker.addTo(pedLayer);
+    injuryMarker.bindPopup(popupTemplate({ name: r.location, r }, { className: "intersection-detail" }));
+});
+bikeLayer.addTo(map);
 
 window.collisionsData.forEach(function(r) {
   if (!r.lat) return;
@@ -69,9 +44,6 @@ window.collisionsData.forEach(function(r) {
     })
   });
   marker.data = r;
-  marker.addTo(r.bike == 0 ? pedestrianLayer : bikeLayer);
-  marker.on("click", e => console.log(e.target.data));
-
   if (r.bike == 1) heatPointsBike.push([r.lat, r.lng, 1]);
   if (r.bike == 0) heatPointsPed.push([r.lat, r.lng, 1]);
 });
@@ -91,11 +63,7 @@ var heatmapPed = new L.heatLayer(heatPointsPed, {
 });
 
 heatmapBike.addTo(map);
-// heatmapPed.addTo(map);
-
-// pedestrianLayer.addTo(map);
-// bikeLayer.addTo(map);
-map.fitBounds(pedestrianLayer.getBounds());
+map.fitBounds(bikeLayer.getBounds());
 
 var geocode = function(e) {
   e.stopPropagation();
@@ -118,21 +86,18 @@ var toggleLayer = function() {
   if (checked == "bicycles") {
     heatmapBike.addTo(map);
     map.removeLayer(heatmapPed);
+    bikeLayer.addTo(map);
+    map.removeLayer(pedLayer);
   } else {
     heatmapPed.addTo(map);
     map.removeLayer(heatmapBike);
+    map.removeLayer(bikeLayer);
+    pedLayer.addTo(map);
   }
 };
 
 toggleLayer();
-// map.on("zoom", function(e) {
-//   console.log(e, map.getZoom());
-//   if (map.getZoom() > 16) {
-//     pedestrianLayer.addTo(map);
-//   } else if (pedestrianLayer._map){
-//     map.removeLayer(pedestrianLayer);
-//   }
-// })
+
 
 $.one(".buttonRow").addEventListener("change", toggleLayer);
 $(".intersection").forEach(el => el.addEventListener("click", geocode));
