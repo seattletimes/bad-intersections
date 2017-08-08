@@ -1,2 +1,9 @@
 <h1> <%= data.name %> </h1>
-<p> There were a total of <strong><%= data.r.injury_sum %> </strong> injuries at this intersection over the past 10 years. </p>
+
+<% if (data.r.bike == 0) {%>
+<p> There have been a total of <strong><%= data.r.injury_sum %> pedestrians injured </strong> in <%= data.r.index %> collisions at this intersection over the past 10 years. </p>
+<% } %>
+
+<% if (data.r.bike == 1) {%>
+<p> There have been a total of <strong><%= data.r.injury_sum %> cyclists injured </strong> in <%= data.r.index %> collisions at this intersection over the past 10 years. </p>
+<% } %>

@@ -26,20 +26,31 @@
 h1 {
   text-align: center;
   margin-top: 0;
+
+  @media @mobile {
+    text-align: left;
+    font-size: 25px;
+  }
 }
 
 .chatter {
   text-align: center;
+
+  @media @mobile {
+    text-align: left;
+    font-size: 15px;
+  }
 }
 .container {
   .display-flex();
+
+  @media @mobile {
+    display: block;
+  }
 }
 
 .map-container {
-  max-width: 360px;
   .flex(1);
-  // padding-right: 25px;
-
 }
 
 .aspect-container {
@@ -51,9 +62,6 @@ h1 {
     display: block;
     padding-bottom: 150%;
 
-    @media @mobile {
-      // padding-bottom: 75%;
-    }
   }
 
   leaflet-map {
@@ -71,12 +79,22 @@ h1 {
     stroke-opacity: .7;
     cursor: pointer;
   }
+  .leaflet-div-icon:hover {
+    background: yellow;
+    cursor: pointer;
+  }
 }
 
 .navigation {
   max-width: 250px;
   padding-left: 30px;
   padding-top: 20px;
+
+  @media @mobile {
+    max-width: none;
+    padding-left: 0px;
+
+  }
 
   .title {
     text-align: center;
@@ -138,6 +156,7 @@ h1 {
         text-align: left;
         margin-bottom: 5px;
         margin-top: 15px;
+        font-family: @df-sans;
       }
 
       p {
@@ -195,12 +214,20 @@ h1 {
 .source, .note {
   padding-top: 10px;
   font-size: 14px;
+
+  @media @mobile {
+    text-align: center;
+  }
 }
 
 .credit {
   font-size: 13px;
   text-align: right;
   margin-top: 8px;
+
+  @media @mobile {
+    text-align: center;
+  }
 }
 
 .leaflet-popup-content-wrapper {
