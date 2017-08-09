@@ -8,10 +8,19 @@
 
     <responsive-child>
       <main class="interactive">
-      <h1>Seattle's most dangerous intersections for bicycles and pedestrians</h1>
-      <p class="chatter"> Insert chatter here </p>
+      <h1>Collision course: Dangerous intersections for Seattle bicyclists and pedestrians</h1>
+      <p class="chatter"> This map shows where collisions involving bicyclists or pedestrian have occurred in Seattle from 2008 to May 2017. The darker the color on the map, the greater the number of collisions. The markers depict the top 10 locations where the most injuries or deaths have occurred. Click on those dots for details. </p>
         <div class="container">
           <div class="map-container">
+            <aside class="legend">
+              <h1>Number of collisions</h1>
+              <ul class="scale">
+                <li>
+                  <span class="bikeBlock"></span> Bicycles</li>
+                <li>
+                  <span class="pedBlock"></span> Pedestrians</li>
+              </ul>
+            </aside>
             <div class="aspect-container">
               <leaflet-map>
                 <tile-layer layer="cartoPositron">
@@ -29,7 +38,7 @@
           </div>
             <div class="tab bicycles show-key">
               <div class="key">
-                <div class="filler">Click on a marker to explore some of Seattle's most dangerous intersections for either bicycles or pedestrians. </div>
+                <div class="filler">Click on a marker for additional information on bicycle injuries and fatalities. </div>
                 <div class="item">
                   <!-- <div class="swatch"></div> <div class="text"></div> -->
                 </div>
@@ -37,7 +46,7 @@
             </div>
             <div class="tab pedestrians">
               <div class="key ped">
-                <div class="filler">Click on a marker to explore some of Seattle's most dangerous intersections for either bicycles or pedestrians. </div>
+                <div class="filler">Click on a marker for additional information on pedestrian injuries and fatalities. </div>
               </div>
             </div>
           </div>

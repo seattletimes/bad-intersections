@@ -6,7 +6,7 @@
 
 @highest: @no-visible-color;
 @high: mix(@no-visible-color, @visible-color, 60%);
-@medium: mix(@no-visible-color, @visible-color, 30%);
+@medium: #eb7100;
 @low: mix(@no-visible-color, @visible-color, 5%);
 
 @ped-no-visible-color: #03685C;
@@ -24,7 +24,6 @@
 }
 
 h1 {
-  text-align: center;
   margin-top: 0;
 
   @media @mobile {
@@ -34,7 +33,6 @@ h1 {
 }
 
 .chatter {
-  text-align: center;
 
   @media @mobile {
     text-align: left;
@@ -51,7 +49,81 @@ h1 {
 
 .map-container {
   .flex(1);
+  position: relative;
 }
+
+aside.legend {
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  border-radius: 5px;
+  z-index: 999;
+  max-width: 135px;
+  @media @tablet {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    max-width: 400px;
+    padding: 0px 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+  }
+  h1 {
+    margin: 0;
+    padding: 5px 5px 5px 0;
+    text-align: left;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+  ul.scale {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    overflow: auto;
+    padding-bottom: 8px;
+    @media @tablet {
+      // display: flex;
+    }
+    li {
+      line-height: 18px;
+      margin-bottom: 2px;
+      @media @tablet {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+    .bikeBlock {
+      width: 4em;
+      height: 12px;
+      display: inline-block;
+      vertical-align: text-top;
+      background: linear-gradient(to right, @low 5%, @medium 25%, @high 75%, @highest 95%);
+      @media @tablet {
+        display: block;
+        width: 100px;
+      }
+    }
+    .pedBlock {
+      width: 4em;
+      height: 12px;
+      display: inline-block;
+      vertical-align: text-top;
+      background: linear-gradient(to right, @ped-low 5%, @ped-medium 25%, @ped-high 75%, @ped-highest 95%);
+      @media @tablet {
+        display: block;
+        width: 100px;
+      }
+    }
+  }
+}
+
 
 .aspect-container {
   position: relative;
@@ -74,6 +146,8 @@ h1 {
 
   .leaflet-div-icon {
     background: #e5dede;
+    stroke: rgb(255, 255, 255);
+    stroke-opacity: 0.7;
     border-radius: 100%;
     stroke: black;
     stroke-opacity: .7;

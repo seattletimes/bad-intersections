@@ -15,6 +15,7 @@ var mapElement = $.one("leaflet-map");
 var map = window.map = mapElement.map;
 var leaflet = mapElement.leaflet;
 map.scrollWheelZoom.disable();
+map.options.maxZoom = 15;
 
 var heatPointsBike = [];
 var heatPointsPed = [];
@@ -54,17 +55,19 @@ window.collisionsData.forEach(function(r) {
 });
 
 var heatmapBike = new L.heatLayer(heatPointsBike, {
-  gradient: {0.4: '#f7a26b', 0.65: '#d87759', 1: '#800026'},
+  gradient: {0.4: '#f7a26b', 0.65: '#eb7100', 1: '#800026'},
   blur: 7,
-  radius: 10,
-  maxZoom: 16
+  radius: 9,
+  maxZoom: 16,
+  max: 1
 });
 
 var heatmapPed = new L.heatLayer(heatPointsPed, {
   gradient: {.25:'#c7e9b4', .5:'#8cc29a', .75:'#7fcdbb', 1:'#03685C'},
   blur: 8,
   radius: 10,
-  maxZoom: 17
+  maxZoom: 17,
+  max: 1
 });
 
 heatmapBike.addTo(map);
