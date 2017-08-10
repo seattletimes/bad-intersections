@@ -15,7 +15,7 @@ var mapElement = $.one("leaflet-map");
 var map = window.map = mapElement.map;
 var leaflet = mapElement.leaflet;
 map.scrollWheelZoom.disable();
-map.options.maxZoom = 15;
+map.options.maxZoom = 14;
 
 var heatPointsBike = [];
 var heatPointsPed = [];

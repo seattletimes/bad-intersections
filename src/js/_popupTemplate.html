@@ -1,14 +1,14 @@
 <h1> <%= data.name %> </h1>
 
 <% if (data.r.fatal == 1) {%>
-<p> There have been a total of <strong><%= data.r.injury_sum %> cyclists injured </strong> in <%= data.r.collisions %> collisions at this intersection from 2008 to May 2017. There was <strong><%= data.r.fatal %> fatal injury</strong>.</p>
+<p> There have been a total of <strong><%= data.r.injury_sum %> injuries </strong> in <%= data.r.collisions %> collisions at this location from 2008 to May 2017. There was <strong><%= data.r.fatal %> fatal injury</strong>.</p>
 <% } %>
 
 
 <% if (data.r.bike == 0 && data.r.fatal != 1) {%>
-<p> There have been a total of <strong><%= data.r.injury_sum %> pedestrians injured </strong> in <%= data.r.collisions %> collisions at this intersection from 2008 to May 2017. </p>
+<p> There have been a total of <strong><%= data.r.injury_sum %> injuries </strong> in <%= data.r.collisions %> collisions at this location from 2008 to May 2017. </p>
 <% } %>
 
 <% if (data.r.bike == 1 && data.r.fatal != 1) {%>
-<p> There have been a total of <strong><%= data.r.injury_sum %> cyclists injured </strong> in <%= data.r.collisions %> collisions at this intersection from 2008 to May 2017. </p>
+<p> There have been a total of <strong><%= data.r.injury_sum %> injuries </strong> in <%= data.r.collisions %> collisions at this location from 2008 to May 2017. </p>
 <% } %>
